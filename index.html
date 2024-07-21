@@ -1,11 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3 Scatterplot with Annotations and Bar Charts</title>
+    <style>
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: auto;
+            height: auto;
+            padding: 5px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
+        .annotation {
+            font: 12px sans-serif;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <svg width="800" height="600"></svg>
+    <button id="prevBtn">Previous</button>
+    <button id="nextBtn">Next</button>
+    <div id="titles-container">
+        <div id="scatterplot-title" class="hidden">
+            <h1>Scatterplot of Housing Prices by Area</h1>
+            <p>This chart shows the relationship between the area of houses and their prices.</p>
+        </div>
+        <div id="bedrooms-bar-chart-title" class="hidden">
+            <h1>Average Price by Number of Bedrooms</h1>
+            <p>This chart shows the average price of houses based on the number of bedrooms.</p>
+        </div>
+        <div id="stories-bar-chart-title" class="hidden">
+            <h1>Average Price by Number of Stories</h1>
+            <p>This chart shows the average price of houses based on the number of stories.</p>
+        </div>
+    </div>
+    <div id="charts-container">
+        <div id="scatterplot"></div>
+        <div id="bedrooms-bar-chart" class="hidden"></div>
+        <div id="stories-bar-chart" class="hidden"></div>
+    </div>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
     <script src="scatterplot.js"></script>
 </body>
 </html>
