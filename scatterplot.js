@@ -1,5 +1,5 @@
 // Set the dimensions and margins of the graphs
-const margin = { top: 20, right: 30, bottom: 40, left: 70 }, // Increased left margin
+const margin = { top: 20, right: 30, bottom: 40, left: 70 },
     width = 800 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
@@ -11,7 +11,6 @@ const tooltip = d3.select("body").append("div")
 let entire_data = [];
 
 function makeChartArea(data) {
-    // Append the svg object to the respective div for scatterplot
     const svgScatter = d3.select("#scatterplot")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -19,7 +18,7 @@ function makeChartArea(data) {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
-    // Add X axis
+    // X axis
     const xScatter = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.area)])
         .range([0, width]);
@@ -27,14 +26,13 @@ function makeChartArea(data) {
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(xScatter));
 
-    // Add Y axis
+    // Y axis
     const yScatter = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.price)])
         .range([height, 0]);
     svgScatter.append("g")
         .call(d3.axisLeft(yScatter));
 
-    // Add dots
     svgScatter.append('g')
         .selectAll("dot")
         .data(data)
@@ -43,7 +41,7 @@ function makeChartArea(data) {
         .attr("cx", d => xScatter(d.area))
         .attr("cy", d => yScatter(d.price))
         .attr("r", 5)
-        .style("fill", "#69b3a2")
+        .style("fill", "#2CA268")
         .on("mouseover", (event, d) => {
             tooltip.transition()
                 .duration(200)
@@ -58,7 +56,7 @@ function makeChartArea(data) {
                 .style("opacity", 0);
         });
 
-    // Define the annotations for scatterplot
+    // Annotations
     const scatterAnnotations = [
         {
             note: {
@@ -81,7 +79,6 @@ function makeChartArea(data) {
         }
     ];
 
-    // Add the annotation to the scatterplot
     const makeScatterAnnotations = d3.annotation()
         .type(d3.annotationLabel)
         .annotations(scatterAnnotations);
@@ -91,7 +88,6 @@ function makeChartArea(data) {
 }
 
 function makeChartBedrooms(data) {
-    // Append the svg object to the respective div for bedrooms bar chart
     const svgBedrooms = d3.select("#bedrooms-bar-chart")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -110,7 +106,6 @@ function makeChartBedrooms(data) {
         count: values.count
     })).sort((a, b) => a.bedrooms - b.bedrooms);
 
-    // Create bedrooms bar chart
     const xBedrooms = d3.scaleBand()
         .domain(bedroomsArray.map(d => d.bedrooms))
         .range([0, width])
@@ -133,7 +128,7 @@ function makeChartBedrooms(data) {
         .attr("y", d => yBedrooms(d.avgPrice))
         .attr("width", xBedrooms.bandwidth())
         .attr("height", d => height - yBedrooms(d.avgPrice))
-        .attr("fill", "#69b3a2")
+        .attr("fill", "#2CA268")
         .on("mouseover", (event, d) => {
             tooltip.transition()
                 .duration(200)
@@ -148,7 +143,7 @@ function makeChartBedrooms(data) {
                 .style("opacity", 0);
         });
 
-    // Define the annotations for bedrooms bar chart
+    // Annotations
     const bedroomsAnnotations = [
         {
             note: {
@@ -158,11 +153,20 @@ function makeChartBedrooms(data) {
             x: xBedrooms(2),
             y: yBedrooms(4300000),
             dy: -50,
-            dx: -100
+            dx: -30
+        },
+        {
+            note: {
+                label: "Likely attributed to small sample size (count: 2)",
+                title: "Small Drop"
+            },
+            x: xBedrooms(6),
+            y: yBedrooms(4850000),
+            dy: -30,
+            dx: 50
         }
     ];
 
-    // Add the annotation to the bedrooms bar chart
     const makeBedroomsAnnotations = d3.annotation()
         .type(d3.annotationLabel)
         .annotations(bedroomsAnnotations);
@@ -172,7 +176,6 @@ function makeChartBedrooms(data) {
 }
 
 function makeChartStories(data) {
-    // Append the svg object to the respective div for stories bar chart
     const svgStories = d3.select("#stories-bar-chart")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -213,7 +216,7 @@ function makeChartStories(data) {
         .attr("y", d => yStories(d.avgPrice))
         .attr("width", xStories.bandwidth())
         .attr("height", d => height - yStories(d.avgPrice))
-        .attr("fill", "#69b3a2")
+        .attr("fill", "#2CA268")
         .on("mouseover", (event, d) => {
             tooltip.transition()
                 .duration(200)
@@ -228,21 +231,20 @@ function makeChartStories(data) {
                 .style("opacity", 0);
         });
 
-    // Define the annotations for stories bar chart
+    // Annotation
     const storiesAnnotations = [
         {
             note: {
                 label: "The housing price increases with the number of stories",
                 title: "Positive correlation"
             },
-            x: xStories(2),
-            y: yStories(5500000),
-            dy: -50,
-            dx: -100
+            x: xStories(4),
+            y: yStories(7200000),
+            dy: 40,
+            dx: -70
         }
     ];
 
-    // Add the annotation to the stories bar chart
     const makeStoriesAnnotations = d3.annotation()
         .type(d3.annotationLabel)
         .annotations(storiesAnnotations);
@@ -251,7 +253,7 @@ function makeChartStories(data) {
         .call(makeStoriesAnnotations);
 }
 
-// Load the CSV data
+// Load data
 d3.csv("Housing.csv").then(data => {
 
     // Parse the data
@@ -270,24 +272,23 @@ d3.csv("Housing.csv").then(data => {
     console.error(error);
 });
 
-// Handle chart navigation
+// Handle naviation logic
 const charts = ["#scatterplot", "#bedrooms-bar-chart", "#stories-bar-chart"];
 const titles = ["#intro-title", "#scatterplot-title", "#bedrooms-bar-chart-title", "#stories-bar-chart-title", "#interactive-title"];
 let currentChartIndex = 0;
 
 function showChart(index) {
-    //d3.selectAll("#charts-container > div").classed("hidden", true);
-    //d3.selectAll("#titles-container > div").classed("hidden", true);
-    //d3.select(charts[index]).classed("hidden", false);
-    //d3.select(titles[index]).classed("hidden", false);
-
+    // Clear the charts
     d3.select("#scatterplot").html("");
     d3.select("#bedrooms-bar-chart").html("");
     d3.select("#stories-bar-chart").html("");
+
+    // Set the title
     d3.selectAll("#titles-container > div").classed("hidden", true);
     d3.select(titles[index]).classed("hidden", false);
 
 
+    // Set the chart
     if (index == 1) {
         // Create a scatterplot
         makeChartArea(entire_data);
@@ -301,7 +302,7 @@ function showChart(index) {
         makeChartArea(entire_data);
     }
 
-    // Disable buttons accordingly
+    // Disable buttons at start and end
     document.getElementById("prevBtn").disabled = index === 0;
     document.getElementById("nextBtn").disabled = index === titles.length - 1;
 }
@@ -314,8 +315,6 @@ function updateFinalSlide() {
     chartIndex = document.getElementById("chart-select").value;
     mainFilter = document.getElementById("mainroad-select").value;
     basementFilter = document.getElementById("basement-select").value;
-
-    console.log(chartIndex, mainFilter, basementFilter);
 
     filtered_data = [];
 
