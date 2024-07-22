@@ -4,51 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D3 Scatterplot with Annotations and Bar Charts</title>
-    <style>
-        .tooltip {
-            position: absolute;
-            text-align: center;
-            width: auto;
-            height: auto;
-            padding: 5px;
-            font: 12px sans-serif;
-            background: lightsteelblue;
-            border: 0px;
-            border-radius: 8px;
-            pointer-events: none;
-        }
-        .annotation {
-            font: 12px sans-serif;
-        }
-        .hidden {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <button id="prevBtn">Previous</button>
-    <button id="nextBtn">Next</button>
     <div id="titles-container">
+        <div id="intro-title" class="hidden">
+            <h1>What attributes affect the price of housing the most</h1>
+            <p>Here we will explore what features would impact the price of housing the most. We will look at the area of a house, the number of bedrooms it has, and the the number of stories.</p> 
+            <p>This will help us determine what attributes most significantly impact the end pricing. Click on the next button to get started.</p>
+        </div>
         <div id="scatterplot-title" class="hidden">
             <h1>Scatterplot of Housing Prices by Area</h1>
             <p>This chart shows the relationship between the area of houses and their prices.</p>
+            <p>Hover over a point to see the area and the price of the house.</p>
+            <p>Click the next button to see information on bedroom count.</p>
         </div>
         <div id="bedrooms-bar-chart-title" class="hidden">
             <h1>Average Price by Number of Bedrooms</h1>
             <p>This chart shows the average price of houses based on the number of bedrooms.</p>
+            <p>Hover over a bar to see the average price along with the number of houses with that many bedrooms.</p>
         </div>
         <div id="stories-bar-chart-title" class="hidden">
             <h1>Average Price by Number of Stories</h1>
-            <p>This chart shows the average price of houses based on the number of stories.</p>
+            <p>This chart shows the average price of houses based on the number of stories (floors).</p>
+            <p>Hover over a bar to see the average price and the number of houses that have that many stories</p>
+            <p>Click the next button to interact with the data</p>
+        </div>
+        <div id="interactive-title" class="hidden">
+            <h1>Interaction with data</h1>
+            <p>First use the first dropdown to choose what chart you want to view</p>
+            <p>Then use the remaining dropdowns to filter out data.</p>
+            
+            <div class="inputs">
+                <div class="input-option">
+                    <label for="chart-select">Choose a chart to inspect:</label>
+                    <select id="chart-select">
+                        <option value=1>Area Scatterplot</option>
+                        <option value=2>Bedroom Bar Chart</option>
+                        <option value=3>Story Bar Chart</option>
+                    </select>
+                </div>
+                <div class="input-option">
+                    <label for="mainroad-select">Filter on houses that have access to a mainroad:</label>
+                <select id="mainroad-select">
+                    <option value=0>No Filter Selected</option>
+                    <option value="yes">Has access to a main road</option>
+                    <option value="no">No access to a main road</option>
+                </select>
+                </div>
+                <div class="input-option">
+                    <label for="basement-select">Filter on houses that have a basement:</label>
+                    <select id="basement-select">
+                        <option value=0>No Filter Selected</option>
+                        <option value="yes">Has a basement</option>
+                        <option value="no">Has no basement</option>
+                    </select>
+                </div>
+            </div>    
+            
         </div>
     </div>
     <div id="charts-container">
         <div id="scatterplot"></div>
-        <div id="bedrooms-bar-chart" class="hidden"></div>
-        <div id="stories-bar-chart" class="hidden"></div>
+        <div id="bedrooms-bar-chart"></div>
+        <div id="stories-bar-chart"></div>
+    </div>
+    <div id="navigation-buttons">
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
     </div>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.0/d3-annotation.min.js"></script>
     <script src="scatterplot.js"></script>
 </body>
 </html>
